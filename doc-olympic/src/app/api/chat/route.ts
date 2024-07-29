@@ -12,6 +12,7 @@ const buildGoogleGenAIPrompt = (messages: Message[]) => ({
       parts: [{ text: message.content }],
     })),
 });
+//NOTE: Haciendo el post para el chatbot
 
 export async function POST(req: Request) {
 
