@@ -47,7 +47,7 @@ export default function NavHome() {
               </Link>
             </NavbarItem>
             <NavbarItem className="py-2 lg:py-0">
-              <Link href="https://github.com/tu-repositorio" aria-label="Repositorio">
+              <Link href="https://github.com/Andres29AC/AI-Olympic" aria-label="Repositorio">
                 <FaGithub size={24} color="white" />
               </Link>
             </NavbarItem>

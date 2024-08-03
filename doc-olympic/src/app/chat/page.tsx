@@ -1,11 +1,37 @@
-//NOTE: Version gosu 2
 'use client';
 
-import { useChat } from 'ai/react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import ChatBubble from '../components/ChatBubble';
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const [messages, setMessages] = useState<{ id: string; role: string; content: string }[]>([]);
+  const [input, setInput] = useState('');
+
+  useEffect(() => {
+    const welcomeMessage = { id: new Date().toISOString(), role: 'assistant', content: '!Bienvenido al chat! ¿Como puedo ayudarte hoy?' };
+    setMessages([welcomeMessage]);
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newMessage = { id: new Date().toISOString(), role: 'user', content: input };
+    setMessages([...messages, newMessage]);
+    setInput('');
+
+    try {
+      const response = await axios.post('/api/chat', { messages: [...messages, newMessage] });
+      const responseData = response.data;
+
+      setMessages([...messages, newMessage, { id: new Date().toISOString(), role: 'assistant', content: responseData }]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
 
   return (
     <div className="relative h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
@@ -41,3 +67,6 @@ export default function Chat() {
     </div>
   );
 }
+
+
+
