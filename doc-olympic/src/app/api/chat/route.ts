@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { GoogleGenerativeAIStream, Message, StreamingTextResponse } from 'ai';
 import { getOlympicEventData } from '../../services/api_france/fetchOlympicData';
 import { getCentresPreparationData } from '../../services/api_france/fetchCentresPreparationData';
+import { getSiteCompetitionData } from '../../services/api_france/fetchSiteCompetitionData';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || '');
 
@@ -15,6 +16,22 @@ const buildGoogleGenAIPrompt = (messages: Message[]) => ({
 });
 
 const handleOlympicQuery = async (query: string) => {
+  //NOTE: Querys de la API Site Competition
+  if (query.toLowerCase().includes('sitios de competencia') || query.toLowerCase().includes('lugares de competencia')) {
+    const sites = await getSiteCompetitionData();
+    const siteNames = sites.map(site => site.nom_site).filter(Boolean);
+    return `Los sitios de competencia disponibles son: ${siteNames.join(', ')}.`;
+  }
+  if (query.toLowerCase().includes('deportes en el sitio de competencia')) {
+    const siteName = query.split('deportes en el sitio de competencia')[1]?.trim();
+    if (!siteName) {
+      return 'Por favor, proporcione el nombre del sitio de competencia que desea consultar.';
+    }
+    const sites = await getSiteCompetitionData();
+    const site = sites.find(site => site.nom_site.toLowerCase() === siteName.toLowerCase());
+    return site ? `Los deportes en el sitio de competencia '${siteName}' son: ${site.sports || 'No hay deportes disponibles'}` : `No se encontro un sitio de competencia llamado '${siteName}'.`;
+  }
+  //NOTE: Querys de la API Centros de Preparacion
   if (query.toLowerCase().includes('centros de preparacion') || query.toLowerCase().includes('centros de entrenamiento')) {
     const centres = await getCentresPreparationData();
     const centreNames = centres.map(centre => centre.title).filter(Boolean);
@@ -47,7 +64,7 @@ const handleOlympicQuery = async (query: string) => {
     const centre = centres.find(centre => centre.title.toLowerCase() === centreName.toLowerCase());
     return centre ? `Galeria de '${centreName}': ${centre.gallery.map(image => image.src).join(', ') || 'No hay imagenes disponibles'}` : `No se encontro un centro de preparacion llamado '${centreName}'.`;
   }
- 
+  //NOTE: Querys de la API de Proyectos Culturales para los Juegos Olimpicos
   if (query.toLowerCase().includes('proyectos culturales') || query.toLowerCase().includes('eventos culturales')) {
     const events = await getOlympicEventData();
     const projectNames = events.map(event => event.name).filter(Boolean);
@@ -83,6 +100,9 @@ const handleOlympicQuery = async (query: string) => {
 
   if (query.toLowerCase().includes('hola doc olympic')) {
     return 'Hola, soy Doc Olympic. ¿En que puedo ayudarte?';
+  }
+  if (query.toLowerCase().includes('¿eres doc olympic o gemini?')) {
+    return 'Soy Doc Olympic, tu asistente especializado en informacion sobre los Juegos Olimpicos de Paris 2024. ¿En que puedo ayudarte hoy?';
   }
 
   return null;
