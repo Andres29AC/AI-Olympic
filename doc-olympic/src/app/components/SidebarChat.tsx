@@ -7,19 +7,18 @@ import { Icon } from '@iconify/react';
 
 const SidebarChat = ({ isOpen, onClose }) => {
   const pathname = usePathname();
-  
+
   const menuItems = [
-    { href: '/settings/profile', label: 'Perfil', icon: 'mdi:account' },
     { href: '/pages/preguntas-api', label: 'Preguntas API', icon: 'mdi:help-circle' },
-    { label: 'Nuevo Boton', icon: 'mdi:plus', isButton: true }
   ];
 
   return (
     <div className={`fixed inset-0 z-50 flex ${isOpen ? 'translate-x-0' : '-translate-x-full'} transform transition-transform duration-300 ease-in-out`}>
       <div className="w-64 h-full bg-gray-800 text-white flex flex-col">
-        <div className="p-4 border-b border-gray-700 text-xl font-semibold flex justify-between items-center">
+        <div className="p-4 border-b border-gray-700 text-xl font-semibold flex items-center">
           Doc Olympic
-          <button onClick={onClose}>
+          <img src="/ai.png" alt="Doc Olympic" className="w-8 h-8 mr-2 rounded-full" />
+          <button onClick={onClose} className="ml-auto">
             <Icon icon="mdi:close" className="text-white text-2xl" />
           </button>
         </div>

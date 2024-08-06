@@ -82,8 +82,8 @@ const handleOlympicQuery = async (query: string) => {
           .forEach(discipline => disciplinesSet.add(discipline));
       }
     });
-    const disciplines = Array.from(disciplinesSet).map(discipline => 
-      discipline.charAt(0).toUpperCase() + discipline.slice(1) 
+    const disciplines = Array.from(disciplinesSet).map(discipline =>
+      discipline.charAt(0).toUpperCase() + discipline.slice(1)
     );
     return `Las disciplinas de los proyectos olimpicos son: ${disciplines.join(', ')}.`;
   }
@@ -97,6 +97,7 @@ const handleOlympicQuery = async (query: string) => {
     const event = events.find(event => event.name.toLowerCase() === eventName.toLowerCase());
     return event ? `Descripcion del evento '${eventName}': ${event.description || 'No hay descripcion disponible'}` : `No se encontro un evento llamado '${eventName}'.`;
   }
+  //NOTE: Querys de Bienvenida
 
   if (query.toLowerCase().includes('hola doc olympic')) {
     return 'Hola, soy Doc Olympic. ¿En que puedo ayudarte?';

@@ -1,16 +1,17 @@
-'use client';
-
+"use client"
 import { useState } from 'react';
 import axios from 'axios';
 import ChatBubble from '../components/ChatBubble';
 import SidebarChat from '../components/SidebarChat';
 import { Icon } from '@iconify/react';
 import CleanChat from '../utils/CleanChat';
+import { useRouter } from 'next/navigation';
 
 export default function Chat() {
   const [messages, setMessages] = useState<{ id: string; role: 'user' | 'assistant'; content: string }[]>([]);
   const [input, setInput] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const router = useRouter();
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -39,16 +40,26 @@ export default function Chat() {
     setMessages([]);
   };
 
+  const redirectToHome = () => {
+    router.push('/');
+  };
+
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
       <SidebarChat isOpen={isSidebarOpen} onClose={toggleSidebar} />
       <div className="flex-1 flex flex-col relative">
-        <div className="absolute top-4 left-4 z-20 flex items-center space-x-4">
+        <div className="absolute top-4 right-4 z-20 flex items-center space-x-4">
           <button
             onClick={toggleSidebar}
             className="p-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
           >
             <Icon icon="mdi:menu" className="text-xl" />
+          </button>
+          <button
+            onClick={redirectToHome}
+            className="p-3 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300"
+          >
+            <Icon icon="mdi:home" className="text-xl" />
           </button>
           <CleanChat onCleanChat={handleCleanChat} hasMessages={messages.length > 0} />
         </div>

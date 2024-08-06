@@ -15,14 +15,14 @@ export default function InfoModal({ onModalOpenChange, isOpen }) {
   };
 
   const handleMoreInfo = () => {
-    window.location.href = 'https://data.paris2024.org/explore/dataset/paris-2024-evenements-olympiade-culturelle/api/?disjunctive.nom_de_la_structure_c&disjunctive.public_adresse_c&disjunctive.departement&disjunctive.commune&disjunctive.tarif_du_projet_c&disjunctive.discipline_principale_du_projet_c'; 
+    window.location.href = 'https://data.paris2024.org/explore/?sort=modified&exclude.theme=Geodata'; 
   };
 
   return (
     <>
       {!modalOpen && (
-        <Button className="info-modal-button bg-green-500 text-white font-bold py-2 px-4 rounded" color="primary" onPress={handleOpen} auto>
-          View Event Details
+        <Button className="info-modal-button bg-blue-500 text-white font-bold py-2 px-4 rounded" color="primary" onPress={handleOpen} auto>
+          Project Details
         </Button>
       )}
       <Modal isOpen={modalOpen} onOpenChange={handleClose} width="600px" hideCloseButton>
@@ -35,9 +35,7 @@ export default function InfoModal({ onModalOpenChange, isOpen }) {
               <h2 className="text-2xl font-bold text-primary">Juegos Olimpicos Paris 2024</h2>
             </ModalHeader>
             <ModalBody className="w-full flex flex-col items-center justify-center overflow-auto">
-              <p className="mb-4 text-lg text-center">
-                Discover the exciting cultural events happening at the Paris 2024 Olympics.
-              </p>
+
               <div className="flex justify-center mb-4">
                 <img
                   src="/logo.svg"
@@ -47,10 +45,10 @@ export default function InfoModal({ onModalOpenChange, isOpen }) {
                 />
               </div>
               <p className="mb-4 text-center">
-                Explore various cultural showcases, exhibitions, and performances that celebrate the essence of the Olympics in Paris. Don't miss out on these amazing events!
+               Consulta sobre los Proyectos Culturales planteados para los Juegos Olimpicos Paris 2024, asi como sobre los Centros de Preparacion y Sitios de Competicion
               </p>
               <p className="text-center">
-                From historical exhibitions to live performances, the Paris 2024 Olympics will feature a rich tapestry of cultural experiences. Join us in celebrating the spirit of the Games!
+                Este proyecto integra APIs publicas proporcionadas por la organizacion de los Juegos Olimpicos Paris 2024
               </p>
             </ModalBody>
             <ModalFooter className="w-full flex justify-center space-x-4">
@@ -69,7 +67,7 @@ export default function InfoModal({ onModalOpenChange, isOpen }) {
                 auto 
                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors"
               >
-                API
+                APIs
               </Button>
             </ModalFooter>
           </>

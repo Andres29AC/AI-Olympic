@@ -11,7 +11,7 @@ export default function NavHome() {
     <div className="w-full flex justify-center fixed top-0 z-40">
       <Navbar
         isBordered
-        className="w-full max-w-full rounded-lg py-4 px-6"
+        className="w-full max-w-full rounded-sm py-4 px-6"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       >
         <div className="flex justify-between items-center w-full">

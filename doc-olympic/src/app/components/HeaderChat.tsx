@@ -6,8 +6,8 @@ export default function HeaderChat() {
       <ul>
         <li>
           <Link href="/chat">
-            <button className="hover:underline bg-green-500 text-white font-bold py-2 px-4 rounded">
-              Chat Olympic Paris 2024
+            <button className="hover:underline bg-blue-500 text-white font-bold py-2 px-4 rounded">
+              Chat Doc Olympic Paris 2024
             </button>
           </Link>
         </li>
