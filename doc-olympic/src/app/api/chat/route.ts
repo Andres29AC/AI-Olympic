@@ -214,24 +214,6 @@ const handleOlympicQuery = async (query: string) => {
     const projectNames = events.map(event => event.name).filter(Boolean);
     return `Los proyectos culturales disponibles son: ${projectNames.join(', ')}.`;
   }
-
-  if (query.toLowerCase().includes('disciplinas')) {
-    const events: Event[] = await getOlympicEventData();
-    const disciplinesSet = new Set<string>();
-    events.forEach(event => {
-      if (Array.isArray(event.discipline)) {
-        event.discipline
-          .map(discipline => typeof discipline === 'string' ? discipline.trim().toLowerCase() : null)
-          .filter(Boolean)
-          .forEach(discipline => disciplinesSet.add(discipline));
-      }
-    });
-    const disciplines = Array.from(disciplinesSet).map(discipline =>
-      discipline.charAt(0).toUpperCase() + discipline.slice(1)
-    );
-    return `Las disciplinas de los proyectos olimpicos son: ${disciplines.join(', ')}.`;
-  }
-
   if (query.toLowerCase().includes('descripcion del evento')) {
     const eventName = query.split('descripcion del evento')[1]?.trim();
     if (!eventName) {
