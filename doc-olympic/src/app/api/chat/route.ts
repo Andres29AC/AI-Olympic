@@ -156,6 +156,12 @@ interface Centre {
   gallery?: { src: string }[];
 }
 
+interface Event {
+  name: string;
+  description?: string;
+  discipline?: string[];
+}
+
 const handleOlympicQuery = async (query: string) => {
   if (query.toLowerCase().includes('sitios de competencia') || query.toLowerCase().includes('lugares de competencia')) {
     const sites: Site[] = await getSiteCompetitionData();
@@ -204,13 +210,13 @@ const handleOlympicQuery = async (query: string) => {
     return centre ? `Galeria de '${centreName}': ${centre.gallery?.map(image => image.src).join(', ') || 'No hay imagenes disponibles'}` : `No se encontro un centro de preparacion llamado '${centreName}'.`;
   }
   if (query.toLowerCase().includes('proyectos culturales') || query.toLowerCase().includes('eventos culturales')) {
-    const events = await getOlympicEventData();
+    const events: Event[] = await getOlympicEventData();
     const projectNames = events.map(event => event.name).filter(Boolean);
     return `Los proyectos culturales disponibles son: ${projectNames.join(', ')}.`;
   }
 
   if (query.toLowerCase().includes('disciplinas')) {
-    const events = await getOlympicEventData();
+    const events: Event[] = await getOlympicEventData();
     const disciplinesSet = new Set<string>();
     events.forEach(event => {
       if (Array.isArray(event.discipline)) {
@@ -231,7 +237,7 @@ const handleOlympicQuery = async (query: string) => {
     if (!eventName) {
       return 'Por favor, proporcione el nombre del evento que desea consultar.';
     }
-    const events = await getOlympicEventData();
+    const events: Event[] = await getOlympicEventData();
     const event = events.find(event => event.name.toLowerCase() === eventName.toLowerCase());
     return event ? `Descripcion del evento '${eventName}': ${event.description || 'No hay descripcion disponible'}` : `No se encontro un evento llamado '${eventName}'.`;
   }
